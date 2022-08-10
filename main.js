@@ -1,25 +1,32 @@
-const pokeContainer = document.createElement("div")
-document.body.append(pokeContainer)
+const pokemonlista = document.getElementById('pokemonlista')
 
-fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
-    .then((res) => res.json())
-    .then(renderPokemon)
-    .catch(console.error)
-
-function renderPokemon(pokeObject) {
-    console.log(typeof pokeObject)
-    const arrayPoke = pokeObject.results
-    console.log(arrayPoke)
-    let i = 1
-    Object.keys(arrayPoke).forEach((key) => {
-        const poke = arrayPoke[key].name
-        pokedex(`${i++}. ${poke}`)
+const fetchPokemones = () => {
+    const promesas = []
+    for (let i = 1; i <= 151; i++) {
+        const url = `https://pokeapi.co/api/v2/pokemon/${i}`
+        promesas.push(fetch(url).then((res) => res.json()))
+    }
+    Promise.all(promesas).then((resultados) => {
+        const pokemones = resultados.map((resultado) => ({
+            nombre: resultado.name,
+            imagen: resultado.sprites['front_default'],
+            id: resultado.id
+        }))
+        mostrarPokemones(pokemones)
     })
 }
 
-function pokedex(pokeName) {
-    const pokeHeader = document.createElement("h2")
-    pokeHeader.textContent = `${pokeName}`
-    pokeHeader.className = "center"
-    pokeContainer.append(pokeHeader)
-}
+const mostrarPokemones = (pokemones) => {
+    const pokemonHTML = pokemones
+        .map(
+            (pokemon) => `
+        <li class="tarjeta">
+            <img class="tarjeta-imagen" src="${pokemon.imagen}"/>
+            <h2 class="tarjeta-titulo">${pokemon.id}. ${pokemon.nombre}</h2>
+        </li>
+    `
+        ).join('')
+    pokemonlista.innerHTML = pokemonHTML
+};
+
+fetchPokemones()

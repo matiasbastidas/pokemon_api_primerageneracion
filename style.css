@@ -1,0 +1,43 @@
+body {
+    background-color: red;
+    color: white;
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container {
+    padding: 40px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 60px;
+}
+
+#pokemonlista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 20px;
+    padding-inline-start: 0;
+}
+
+.tarjeta {
+    list-style: none;
+    padding: 40px;
+    background-color: #f4f4f4;
+    color: black;
+    text-align: center;
+}
+
+.tarjeta-titulo {
+    text-transform: capitalize;
+    margin-bottom: 0px;
+    font-size: 40px;
+    font-weight: normal;
+}
+
+.tarjeta-imagen {
+    height: 150px;
+}
